@@ -1,32 +1,50 @@
 package io.github.aritzhack.jDefense;
 
 import io.github.aritzhack.aritzh.awt.gameEngine.CanvasEngine;
+import io.github.aritzhack.aritzh.awt.render.BufferedImageRenderer;
+import io.github.aritzhack.aritzh.awt.render.IRender;
 import io.github.aritzhack.aritzh.gameEngine.IGame;
+import io.github.aritzhack.aritzh.logging.ILogger;
+import io.github.aritzhack.aritzh.logging.SLF4JLogger;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
- * Created by Aritz on 02/09/2014.
+ * @author Aritz Lopez
  */
 public class Game implements IGame {
 
-    private CanvasEngine engine;
+    public static final int WIDTH = 1280, HEIGHT = 720;
+    public static final ILogger LOG = new SLF4JLogger("Game");
+    private final IRender render = new BufferedImageRenderer(WIDTH, HEIGHT);
+    private final CanvasEngine engine;
+
+    public Game() {
+        this.engine = new CanvasEngine(this, WIDTH, HEIGHT, false, Game.LOG);
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.getEngine().start();
+    }
 
     @Override
     public void onStart() {
-        engine = Main.engine;
     }
 
     @Override
     public void onStop() {
-
     }
 
     @Override
     public void onRender() {
-        Graphics g = engine.getGraphics();
+        Graphics g = this.engine.getGraphics();
 
-        g.clearRect(0, 0, g.getClipBounds().width, g.getClipBounds().height);
+        this.render.clear();
+
+        // Render code here
+
+        g.drawImage(this.render.getImage(), 0, 0, WIDTH, HEIGHT, null);
     }
 
     @Override
@@ -41,7 +59,6 @@ public class Game implements IGame {
 
     @Override
     public void onUpdatePS() {
-        Main.LOG.e("FPS: {}, UPS: {}", engine.getFPS(), engine.getUPS());
-        System.out.println("Hola"); // Does not work
+        Game.LOG.d("FPS: {}, UPS: {}", engine.getFPS(), engine.getUPS());
     }
 }
