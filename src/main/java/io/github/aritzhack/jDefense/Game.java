@@ -25,7 +25,7 @@ public class Game implements IGame {
 
     public static void main(String[] args) {
         Game game = new Game();
-        game.engine.start();
+        game.getEngine().start();
     }
 
     @Override
