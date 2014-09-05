@@ -10,26 +10,50 @@ import java.util.Set;
  */
 public class Field {
 
-    private final int SIZE = 720;
+    public static final int SIZE = 720;
+    public static final int X_OFFSET = (Game.WIDTH - SIZE) / 2;
+    public static final int BORDER_SIZE = 20;
 
-    private final Set<Turret> turrets = Sets.newHashSet();
+    public static final int CELL_X_OFFSET = X_OFFSET + BORDER_SIZE;
+    public static final int CELL_Y_OFFSET = BORDER_SIZE;
+
+
+    private static final int TILE_AMOUNT = 10;
+
     private final Set<Enemy> enemies = Sets.newHashSet();
 
-    public Field() {
+    private final Tile[][] tiles;
 
+    public Field() {
+        this.tiles = new Tile[TILE_AMOUNT][TILE_AMOUNT];
+
+        for (int x = 0; x < TILE_AMOUNT; x++) {
+            for (int y = 0; y < TILE_AMOUNT; y++) {
+                this.tiles[x][y] = new Tile(x, y);
+            }
+        }
     }
 
-    public void update() {
-        for (Turret t : this.turrets) {
-            t.update();
+    public void update(Game game) {
+
+        for (Enemy e : this.enemies) {
+            e.update(game);
         }
 
-        for(Enemy e : this.enemies) {
-            e.update();
+        for (Tile[] row : this.tiles) {
+            for (Tile t : row) {
+                t.update(game);
+            }
         }
     }
 
     public void render(IRender render) {
+        render.draw(X_OFFSET, 0, "field");
 
+        for (Tile[] row : this.tiles) {
+            for (Tile t : row) {
+                t.render(render);
+            }
+        }
     }
 }

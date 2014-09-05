@@ -14,7 +14,7 @@ public class Enemy {
         this.maxHealth = maxHealth;
     }
 
-    public void update() {
+    public void update(Game game) {
 
     }
 }
