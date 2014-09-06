@@ -35,7 +35,6 @@ public class Field {
     }
 
     public void update(Game game) {
-
         for (Enemy e : this.enemies) {
             e.update(game);
         }

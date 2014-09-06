@@ -24,6 +24,10 @@ public class Turret {
     }
 
     public void render(IRender render) {
-        
+
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 }
